@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+# meet-app
+is a progressive web application built using React and following the TDD approach. The app itself will be a “meetup” app of sorts, displaying a list of upcoming events for a city and time of the user’s choosing. It will also be available for users to use while offline (PWA)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+## TDD approach & Test Scenarios
 
-### `npm start`
+### `FEATURE 1: FILTER EVENTS BY CITY`
+##### `user storie`
+As a user
+I should be able to “filter events by city”
+So that I can see the list of events that take place in that city
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### Scenario 1: When user hasn’t searched for a city, show upcoming events from all cities.
+Given user hasn’t searched for any city
+When the user opens the app
+Then the user should see a list of all upcoming events
+#### Scenario 2: User should see a list of suggestions when they search for a city.
+Given the main page is open
+When user starts typing in the city textbox
+Then the user should see a list of cities (suggestions) that match what they’ve typed
+#### Scenario 3: User can select a city from the suggested list.
+Given the user was typing “Berlin” in the city textbox
+And the list of suggested cities is showing
+When the user selects a city (e.g., “Berlin, Germany”) from the list
+Then their city should be changed to that city (i.e., “Berlin, Germany”)
+And the user should receive a list of upcoming events in that city
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### `FEATURE 2: SHOW/HIDE AN EVENT'S DETAILS`
+##### `user storie`
+as a user
+I should be able to “Show and hide an event’s details.
+So that I can see more information about the evens and hide it if I want,  without the necessity of going to another page or section of the app. 
 
-### `npm test`
+#### Scenario 1: An event element is collapsed by default
+Given the main page is open.
+When the user first sees the event list
+Then user will see the details of the event collapsed by default	
+#### Scenario 2: User can expand an event to see its details
+Given the elements are collapsed
+when the user click on “see more”
+then the event info will be shown
+#### Scenario 3: User can collapse an event to hide its details
+Given the event info is shown
+when the user click “see less”
+Then the event info will be hide
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `FEATURE 3: SPECIFY NUMBER OF EVENTS`
+##### `user storie`
+as a user 
+I should be able to specify the number of events to be shown
+so that I can personalize the amount of event that I want to be loaded when I open the app
+#### Scenario 1: When user hasn’t specified a number, 32 is the default number
+Given user hasn't specified a number of events.
+When the user opens the app.
+Then user will see 32 events by default.
+#### Scenario 2: User can change the number of events they want to see
+Given user changed the number of events he wants to see
+when user opens the app
+then user will see the chosen number of events
 
-### `npm run build`
+### `FEATURE 4: USE THE APP WHEN OFFLINE`
+##### `user storie`
+as a user
+I should be able to use the app when offline
+So that I can use the app when for some reason I don't have internet connection.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Scenario 1: Show cached data when there’s no internet connection
+Given user have no internet connection
+when user opens the app
+Then cached data will be shown.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Scenario 2: Show error when user changes the settings (city, time range)
+Given user have no internet connection
+when user changes the settings
+Then an error message will be shown.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `FEATURE 5: DATA VISUALIZATION`
+##### `user storie`
+as a user
+I should be able to visualize the data 
+So that I can easily see the number of upcoming events in determinate city.
 
-### `npm run eject`
+#### Scenario 1: Show a chart with the number of upcoming events in each city
+Given user opened the app
+When user click on the chart icon
+Then a chart with the number of upcoming events in each city will be shown.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
