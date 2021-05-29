@@ -2,8 +2,8 @@ const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const calendar = google.calendar("v3");
 
-//const SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"]; //I didnt find the scope ../auth/calendar.readonly thats why I add the ../auth/calendar.events.randonly
-const SCOPES = ["https://www.googleapis.com/auth/calendar.events.readonly"];
+const SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
+//const SCOPES = ["https://www.googleapis.com/auth/calendar.events.readonly"];
 
 const credentials = {
   client_id: process.env.CLIENT_ID,
