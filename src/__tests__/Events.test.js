@@ -28,11 +28,8 @@ describe("<Event /> component", () => {
     EventWrapper.setState({
       show: false,
     });
-
-    let whenClicked = EventWrapper.state.show;
-
     EventWrapper.find(".showMoreLess").simulate("click");
-    expect(EventWrapper.state("show")).toBe(!whenClicked);
+    expect(EventWrapper.state("show")).toEqual(true);
   });
 
   test("hide details by default", () => {

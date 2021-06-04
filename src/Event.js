@@ -13,7 +13,7 @@ class Event extends Component {
   };
 
   handleButton = () => {
-    this.setState = { show: !this.state.show };
+    this.setState((prevState) => ({ show: !prevState.show }));
   };
 
   render() {
