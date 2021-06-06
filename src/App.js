@@ -15,18 +15,18 @@ class App extends Component {
     numberOfEvents: 32,
   };
 
-  // updateNumberOfEvents = (eventNumber) => {
-  //   this.setState({ numberOfEvents: eventNumber });
-  //   console.log(this.state.numberOfEvents);
-  // };
+  updateNumberOfEvents = (eventNumber) => {
+    this.props.updateNumberOfEvents(eventNumber);
+  };
 
-  updateEvents = (location) => {
+  //here I used slice to obtain an array of event whose length = numberOfEvents
+  updateEvents = (location, numberOfEvents) => {
     getEvents().then((events) => {
       const locationEvents =
         location === "all"
           ? events
           : events.filter((event) => event.location === location);
-      this.setState({ events: locationEvents });
+      this.setState({ events: locationEvents.slice(0, numberOfEvents) });
     });
   };
 
@@ -46,13 +46,19 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NumberOfEvents />
+        <NumberOfEvents
+          updateNumberOfEvents={this.updateNumberOfEvents}
+          numberOfEvents={this.state.numberOfEvents}
+        />
         <CitySearch
           locations={this.state.locations}
           updateEvents={this.updateEvents}
+          numberOfEvents={this.numberOfEvents}
         />
-        <EventList events={this.state.events} />
-        {/* <button onClick={() => this.updateNumberOfEvents(50)}>hola</button> */}
+        <EventList
+          events={this.state.events}
+          numberOfEvents={this.numberOfEvents}
+        />
       </div>
     );
   }
