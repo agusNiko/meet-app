@@ -16,7 +16,9 @@ class App extends Component {
   };
 
   updateNumberOfEvents = (eventNumber) => {
-    this.props.updateNumberOfEvents(eventNumber);
+    //const { locations, numberOfEvents } = this.state;
+    this.setState({ numberOfEvents: eventNumber });
+    //this.updateEvents(locations, numberOfEvents);
   };
 
   //here I used slice to obtain an array of event whose length = numberOfEvents
