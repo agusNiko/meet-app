@@ -15,6 +15,11 @@ class App extends Component {
     numberOfEvents: 32,
   };
 
+  // updateNumberOfEvents = (eventNumber) => {
+  //   this.setState({ numberOfEvents: eventNumber });
+  //   console.log(this.state.numberOfEvents);
+  // };
+
   updateEvents = (location) => {
     getEvents().then((events) => {
       const locationEvents =
@@ -47,6 +52,7 @@ class App extends Component {
           updateEvents={this.updateEvents}
         />
         <EventList events={this.state.events} />
+        {/* <button onClick={() => this.updateNumberOfEvents(50)}>hola</button> */}
       </div>
     );
   }
