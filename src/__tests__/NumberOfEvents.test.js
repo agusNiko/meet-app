@@ -1,11 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
 import NumberOfEvents from "../NumberOfEvents";
+import { App } from "../App";
 
 describe("<NumberOfEvents /> component", () => {
   let NumberOfEventsWrapper;
   beforeAll(() => {
-    NumberOfEventsWrapper = shallow(<NumberOfEvents />);
+    NumberOfEventsWrapper = shallow(<App />).find(NumberOfEvents);
   });
 
   test("textbox element is rendered", () => {
@@ -20,6 +21,7 @@ describe("<NumberOfEvents /> component", () => {
 
   test("renders text input correctly", () => {
     const numberOfEvents = NumberOfEventsWrapper.state("numberOfEvents");
+    console.log(NumberOfEventsWrapper.find(".EventsNumber"));
     expect(NumberOfEventsWrapper.find(".EventsNumber").prop("value")).toBe(
       numberOfEvents
     );

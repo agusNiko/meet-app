@@ -9,17 +9,28 @@ import { extractLocations } from "./api";
 import "./style.css";
 
 class App extends Component {
-  state = {
-    events: [],
-    locations: [],
-    numberOfEvents: 32,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: [],
+      locations: [],
+      numberOfEvents: 32,
+      currentLocation: undefined,
+    };
+  }
 
-  updateNumberOfEvents = (eventNumber) => {
-    //const { locations, numberOfEvents } = this.state;
+  // state = {
+  //   events: [],
+  //   locations: [],
+  //   numberOfEvents: 32,
+  //   currentLocation: undefined,
+  // };
+
+  updateNumberOfEvents(eventNumber) {
+    const { locations, numberOfEvents } = this.state;
     this.setState({ numberOfEvents: eventNumber });
-    //this.updateEvents(locations, numberOfEvents);
-  };
+    this.updateEvents(locations, numberOfEvents);
+  }
 
   //here I used slice to obtain an array of event whose length = numberOfEvents
   updateEvents = (location, numberOfEvents) => {
@@ -28,7 +39,12 @@ class App extends Component {
         location === "all"
           ? events
           : events.filter((event) => event.location === location);
-      this.setState({ events: locationEvents.slice(0, numberOfEvents) });
+      if (this.mounted) {
+        this.setState({
+          events: locationEvents.slice(0, numberOfEvents),
+          currentLocation: location,
+        });
+      }
     });
   };
 
@@ -49,7 +65,7 @@ class App extends Component {
     return (
       <div className="App">
         <NumberOfEvents
-          updateNumberOfEvents={this.updateNumberOfEvents}
+          updateNumberOfEvents={(e) => this.updateNumberOfEvents(e)}
           numberOfEvents={this.state.numberOfEvents}
         />
         <CitySearch
@@ -57,10 +73,7 @@ class App extends Component {
           updateEvents={this.updateEvents}
           numberOfEvents={this.numberOfEvents}
         />
-        <EventList
-          events={this.state.events}
-          numberOfEvents={this.numberOfEvents}
-        />
+        <EventList events={this.state.events} />
       </div>
     );
   }

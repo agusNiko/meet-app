@@ -6,25 +6,25 @@ class NumberOfEvents extends Component {
     numberOfEvents: 32,
   };
 
-  handleInputChanged = (event) => {
+  handleInputChanged(event) {
     const value = event.target.value;
     this.setState({
       numberOfEvents: value,
     });
     this.props.updateNumberOfEvents(event.target.value);
-  };
+  }
 
   render() {
-    const numberOfEvents = this.state.numberOfEvents;
+    const numberOfEvents = this.state.numberOfEvents; //I don't need this here
     return (
       <div className="numberOfEvents">
         <form>
-          <label for="fname"> Number of Events:</label>
+          <label htmlFor="fname"> Number of Events:</label>
           <input
             type="text"
             className="EventsNumber"
             value={this.props.numberOfEvents}
-            onChange={this.handleInputChanged}
+            onChange={(e) => this.handleInputChanged(e)}
           />
         </form>
       </div>
