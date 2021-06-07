@@ -99,9 +99,9 @@ describe("<App /> integration", () => {
     AppWrapper.unmount();
   });
 
-  test("events.length is updated after user changes number of events", () => {
+  test("events.length is updated after user changes number of events", async () => {
     const AppWrapper = mount(<App />);
-    AppWrapper.setState({ numberOfEvents: "32" });
+    AppWrapper.setState({ numberOfEvents: "32", locations: "all" });
     const eventObject = { target: { value: "1" } };
 
     const NumberOfEventsComponent = AppWrapper.find(NumberOfEvents);
@@ -110,7 +110,7 @@ describe("<App /> integration", () => {
       eventObject
     );
 
-    expect(AppWrapper.state("locations").length).toBe("1");
+    expect(AppWrapper.state("events").length).toBe("1");
 
     AppWrapper.unmount();
   });
