@@ -5,7 +5,9 @@ import NumberOfEvents from "../NumberOfEvents";
 describe("<NumberOfEvents /> component", () => {
   let NumberOfEventsWrapper;
   beforeAll(() => {
-    NumberOfEventsWrapper = shallow(<NumberOfEvents />);
+    NumberOfEventsWrapper = shallow(
+      <NumberOfEvents updateNumberOfEvents={() => {}} numberOfEvents={32} />
+    );
   });
 
   test("textbox element is rendered", () => {
