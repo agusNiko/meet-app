@@ -72,6 +72,17 @@ describe("<App /> integration", () => {
     AppWrapper.unmount();
   });
 
+  test("change state when text input changes", () => {
+    const AppWrapper = mount(<App />);
+    const NumberOfEventsWrapper = AppWrapper.find(NumberOfEvents);
+    NumberOfEventsWrapper.setState({
+      numberOfEvents: "32",
+    });
+    const eventObject = { target: { value: "10" } };
+    NumberOfEventsWrapper.find(".EventsNumber").simulate("change", eventObject);
+    expect(NumberOfEventsWrapper.state("numberOfEvents")).toBe("10");
+  });
+
   test("numberOfEvent state of app is updated after user changes number of events", async () => {
     const AppWrapper = mount(<App />);
     AppWrapper.setState({ numberOfEvents: "32" });
@@ -88,7 +99,19 @@ describe("<App /> integration", () => {
     AppWrapper.unmount();
   });
 
-  // test("update List of events after user changes number of events", () => {
+  test("events.length is updated after user changes number of events", async () => {
+    const AppWrapper = mount(<App />);
+    AppWrapper.setState({ numberOfEvents: "32", locations: "all" });
+    const eventObject = { target: { value: "1" } };
 
-  // });
+    const NumberOfEventsComponent = AppWrapper.find(NumberOfEvents);
+    NumberOfEventsComponent.find(".EventsNumber").simulate(
+      "change",
+      eventObject
+    );
+
+    expect(AppWrapper.state("events").length).toBe("1");
+
+    AppWrapper.unmount();
+  });
 });
