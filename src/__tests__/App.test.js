@@ -6,6 +6,7 @@ import CitySearch from "../CitySearch";
 import NumberOfEvents from "../NumberOfEvents";
 import { mockData } from "../mock-data";
 import { extractLocations, getEvents } from "../api";
+import { waitFor } from "@testing-library/react";
 
 describe("<App /> component", () => {
   let AppWrapper;
@@ -100,18 +101,28 @@ describe("<App /> integration", () => {
   });
 
   test("events.length is updated after user changes number of events", async () => {
+    //const runAllPromises = () => new Promise(setImmediate);
+
     const AppWrapper = mount(<App />);
+
     AppWrapper.setState({ numberOfEvents: "32", locations: "all" });
-    const eventObject = { target: { value: "1" } };
+    const eventObject = { target: { value: 1 } };
 
     const NumberOfEventsComponent = AppWrapper.find(NumberOfEvents);
-    NumberOfEventsComponent.find(".EventsNumber").simulate(
+    await NumberOfEventsComponent.find(".EventsNumber").simulate(
       "change",
       eventObject
     );
+    await waitFor(() => {
+      AppWrapper.update();
+      expect(AppWrapper.state("events").length).toBe(1);
+    });
 
-    expect(AppWrapper.state("events").length).toBe("1");
+    // const instance = AppWrapper.instance();
+    // await instance.updateNumberOfEvents(1);
+    // AppWrapper.update();
+    // expect(AppWrapper.state("events").length).toBe(1);
 
-    AppWrapper.unmount();
+    // AppWrapper.unmount();
   });
 });
