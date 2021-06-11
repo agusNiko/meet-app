@@ -3,8 +3,10 @@ import puppeteer from "puppeteer";
 let browser;
 let page;
 beforeAll(async () => {
-  jest.setTimeout(30000);
-  browser = await puppeteer.launch({});
+  jest.setTimeout(10000);
+  browser = await puppeteer.launch({
+    headless: false,
+  });
   page = await browser.newPage();
   await page.goto("http://localhost:3000/");
   await page.waitForSelector(".Event");
@@ -20,14 +22,12 @@ describe("show/hide an event details", () => {
     await expect(page.$(".showLess")).resolves.toBe(null);
   });
   test("User can expand an event to see its details and the Show less Button", async () => {
-    await page.click(".Event .showMore"); //Why do I need the ".Event"???
+    await page.click(".Event .showMore");
     const eventDetails = await page.$(".EventDetails");
     const showLessButton = await page.$(".showLess");
-    //const showMoreButton = await page.$(".showMore");
-    //console.log(eventDetails);
+
     expect(eventDetails).toBeDefined();
     expect(showLessButton).toBeDefined();
-    // expect(showMoreButton).toBeNull();
   });
 
   test("User can collapse an event to hide its details", async () => {
@@ -36,7 +36,7 @@ describe("show/hide an event details", () => {
   });
 });
 
-describe("filter Events by city", () => {
+describe("filter Events by city ans number of events", () => {
   test("by default when user opens the app x number of events will be shown", async () => {
     await expect(page.$$(".Event")).resolves.toHaveLength(2);
   });
@@ -47,16 +47,21 @@ describe("filter Events by city", () => {
     await expect(page.$$(".matchSuggestions")).resolves.toHaveLength(1);
   });
 
+  test("when click on a suggestion user should receive a list of upcoming events in that city", async () => {
+    await page.click(".matchSuggestions");
+    await expect(page.$$(".Event")).resolves.toHaveLength(1);
+  });
+
+  test("when click on see all user should receive a list of two events", async () => {
+    await page.type(".city", "Berlin");
+    await page.click(".seeAll");
+    await expect(page.$$(".Event")).resolves.toHaveLength(2);
+  });
+
   test("change number of Events", async () => {
     const input = await page.$(".EventsNumber");
     await input.click({ clickCount: 3 });
     await page.type(".EventsNumber", "1");
     await expect(page.$$(".Event")).resolves.toHaveLength(1);
   });
-
-  // test("when click on a suggestion user should receive a list of upcoming events in that city", async () => {
-  //   await page.type(".city", "Berlin");
-  //   await page.click(".matchSuggestions");
-  //   await expect(page.$$(".Event")).resolves.toHaveLength(1);
-  // });
 });
