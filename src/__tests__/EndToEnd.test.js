@@ -37,9 +37,13 @@ describe("show/hide an event details", () => {
 });
 
 describe("filter Events by city", () => {
+  test("by default when user opens the app x number of events will be shown", async () => {
+    await expect(page.$$(".Event")).resolves.toHaveLength(2);
+  });
+
   test("the user should receive a list of cities (suggestions) that match what they’ve typed", async () => {
     await page.type(".city", "Berlin");
 
-    expect(page.$(".suggestions li")).toHaveLength(2);
+    await expect(page.$$(".matchSuggestions")).resolves.toHaveLength(1);
   });
 });
