@@ -46,4 +46,17 @@ describe("filter Events by city", () => {
 
     await expect(page.$$(".matchSuggestions")).resolves.toHaveLength(1);
   });
+
+  test("change number of Events", async () => {
+    const input = await page.$(".EventsNumber");
+    await input.click({ clickCount: 3 });
+    await page.type(".EventsNumber", "1");
+    await expect(page.$$(".Event")).resolves.toHaveLength(1);
+  });
+
+  // test("when click on a suggestion user should receive a list of upcoming events in that city", async () => {
+  //   await page.type(".city", "Berlin");
+  //   await page.click(".matchSuggestions");
+  //   await expect(page.$$(".Event")).resolves.toHaveLength(1);
+  // });
 });
