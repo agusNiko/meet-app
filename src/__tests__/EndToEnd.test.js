@@ -36,6 +36,10 @@ describe("show/hide an event details", () => {
   });
 });
 
-// describe("filter Events by city", () => {
-//   page.type("#mytextarea", "Hello");
-// });
+describe("filter Events by city", () => {
+  test("the user should receive a list of cities (suggestions) that match what they’ve typed", async () => {
+    await page.type(".city", "Berlin");
+
+    expect(page.$(".suggestions li")).toHaveLength(2);
+  });
+});
