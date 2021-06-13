@@ -26,7 +26,7 @@ class App extends Component {
         this.setState({
           events: locationEvents.slice(0, numberOfEvents),
           currentCity: location,
-          locations: [location],
+          //locations: [location],
         });
       }
     });
