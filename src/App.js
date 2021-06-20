@@ -7,6 +7,7 @@ import { getEvents } from "./api";
 // import { mockData } from "./mock-data";
 import { extractLocations } from "./api";
 import "./style.css";
+import { WarningAlert } from "./Alert";
 
 class App extends Component {
   state = {
@@ -14,6 +15,7 @@ class App extends Component {
     locations: [],
     numberOfEvents: 32,
     currentCity: "all",
+    infoText: "",
   };
 
   updateEvents = (location, numberOfEvents) => {
@@ -48,6 +50,16 @@ class App extends Component {
           events: events.slice(0, numberOfEvents),
           locations: extractLocations(events),
         });
+        if (navigator.online) {
+          this.setState({
+            infoText:
+              "No internet connection is detected, previous loaded events are been shown",
+          });
+        } else {
+          this.setState({
+            infoText: "hola",
+          });
+        }
       }
     });
   }
@@ -59,6 +71,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h1>MEET APP</h1>
         <NumberOfEvents
           updateNumberOfEvents={(e) => this.updateNumberOfEvents(e)}
         />
@@ -67,6 +80,7 @@ class App extends Component {
           updateEvents={this.updateEvents}
           numberOfEvents={this.state.numberOfEvents}
         />
+        <WarningAlert text={this.state.infoText} className="WarningAlert" />
         <EventList events={this.state.events} />
       </div>
     );
