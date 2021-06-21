@@ -3,9 +3,11 @@ import "./App.css";
 import EventList from "./EventList";
 import NumberOfEvents from "./NumberOfEvents";
 import CitySearch from "./CitySearch";
-import { extractLocations, getEvents } from "./api";
+
+import { getEvents, extractLocations, checkToken, getAccessToken } from "./api";
+// import { mockData } from "./mock-data";
 import "./style.css";
-import { WarningAlert } from "./Alert";
+import WelcomeScreen from "./WelcomeScreen";
 
 class App extends Component {
   state = {
@@ -14,6 +16,7 @@ class App extends Component {
     numberOfEvents: 32,
     currentCity: "all",
     infoText: "",
+    showWelcomeScreen: undefined,
   };
 
   updateEvents = (location, numberOfEvents) => {
@@ -39,26 +42,33 @@ class App extends Component {
     this.updateEvents(currentCity, eventNumber);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { numberOfEvents } = this.state;
     this.mounted = true;
-    getEvents().then((events) => {
-      if (this.mounted) {
+    const accessToken = localStorage.getItem("access_token");
+    const isTokenValid = (await checkToken(accessToken)).error ? false : true;
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get("code");
+    this.setState({ showWelcomeScreen: !(code || isTokenValid) });
+    if ((code || isTokenValid) && this.mounted) {
+      getEvents().then((events) => {
+        if (this.mounted) {
+          this.setState({
+            events: events.slice(0, numberOfEvents),
+            locations: extractLocations(events),
+          });
+        }
+      });
+      if (!navigator.onLine) {
         this.setState({
-          events: events.slice(0, numberOfEvents),
-          locations: extractLocations(events),
+          infoText:
+            "Internet connection not detected, previously loaded events are displayed",
+        });
+      } else {
+        this.setState({
+          infoText: "",
         });
       }
-    });
-    if (!navigator.onLine) {
-      this.setState({
-        infoText:
-          "Internet connection not detected, previously loaded events are displayed",
-      });
-    } else {
-      this.setState({
-        infoText: "",
-      });
     }
   }
 
@@ -67,6 +77,8 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.showWelcomeScreen === undefined)
+      return <div className="App" />;
     return (
       <div className="App">
         <h1>MEET APP</h1>
@@ -80,6 +92,12 @@ class App extends Component {
         />
         <WarningAlert text={this.state.infoText} className="InfoAlert" />
         <EventList events={this.state.events} />
+        <WelcomeScreen
+          showWelcomeScreen={this.state.showWelcomeScreen}
+          getAccessToken={() => {
+            getAccessToken();
+          }}
+        />
       </div>
     );
   }
