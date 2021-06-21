@@ -3,7 +3,7 @@ import "./App.css";
 import EventList from "./EventList";
 import NumberOfEvents from "./NumberOfEvents";
 import CitySearch from "./CitySearch";
-
+import { WarningAlert } from "./Alert";
 import { getEvents, extractLocations, checkToken, getAccessToken } from "./api";
 // import { mockData } from "./mock-data";
 import "./style.css";
