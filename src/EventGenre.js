@@ -34,41 +34,43 @@ export default function EventGenre({ events }) {
     percent,
     index,
   }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const radius = innerRadius + (outerRadius - innerRadius) * 1.1;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text
-        x={x}
-        y={y}
-        fill="white"
-        textAnchor={x > cx ? "start" : "end"}
-        dominantBaseline="central"
-      >
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
+    if (percent > 0) {
+      return (
+        <text
+          x={x}
+          y={y}
+          fill="black"
+          textAnchor={x > cx ? "start" : "end"}
+          dominantBaseline="central"
+        >
+          {`${(percent * 100).toFixed(0)}% ${genres[index]}`}
+        </text>
+      );
+    }
   };
 
   return (
-    <ResponsiveContainer height={400}>
-      <PieChart width={400} height={400}>
-        <Pie
-          data={pieChartData}
-          cx={200}
-          cy={200}
-          labelLine={false}
-          label={renderCustomizedLabel}
-          outerRadius={80}
-          fill="#8884d8"
-          dataKey="value"
-        >
-          {pieChartData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-      </PieChart>
-    </ResponsiveContainer>
+    <PieChart width={600} height={600}>
+      <Pie
+        data={pieChartData}
+        cx={"50%"}
+        cy={"50%"}
+        labelLine={false}
+        label={renderCustomizedLabel}
+        outerRadius={150}
+        fill="#8884d8"
+        dataKey="value"
+      >
+        {pieChartData.map((entry, index) => (
+          <Cell
+            key={`cell-${index}`}
+            fill={COLORS[index % COLORS.length]}
+          ></Cell>
+        ))}
+      </Pie>
+    </PieChart>
   );
 }
