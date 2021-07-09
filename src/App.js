@@ -55,6 +55,7 @@ class App extends Component {
     const { numberOfEvents } = this.state;
     this.mounted = true;
     const accessToken = localStorage.getItem("access_token");
+
     const isTokenValid = (await checkToken(accessToken)).error ? false : true;
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get("code");
@@ -98,8 +99,16 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.showWelcomeScreen === undefined)
-      return <div className="App" />;
+    if (this.state.showWelcomeScreen)
+      return (
+        <WelcomeScreen
+          showWelcomeScreen={this.state.showWelcomeScreen}
+          getAccessToken={() => {
+            getAccessToken();
+          }}
+        />
+      );
+
     return (
       <div className="App">
         <h1>MEET APP</h1>
@@ -144,13 +153,6 @@ class App extends Component {
 
         <WarningAlert text={this.state.infoText} className="InfoAlert" />
         <EventList events={this.state.events} />
-
-        <WelcomeScreen
-          showWelcomeScreen={this.state.showWelcomeScreen}
-          getAccessToken={() => {
-            getAccessToken();
-          }}
-        />
       </div>
     );
   }

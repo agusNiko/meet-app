@@ -1,36 +1,28 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-use-before-define */
+import React from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
 export default function EventGenre({ events }) {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    setData(() => getData());
-  }, [events]);
-
   const genres = ["React", "JavaScript", "Node", "jQuery", "AngularJS"];
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-  const getData = () => {
-    const data = [];
-    const genresAndCounts = {};
+  const pieChartData = [];
+  const genresAndCounts = {};
+  genres.forEach((genre) => {
+    genresAndCounts[genre] = 0;
+  });
+
+  events.forEach((event) => {
     genres.forEach((genre) => {
-      genresAndCounts[genre] = 0;
+      if (event.summary.includes(genre)) {
+        genresAndCounts[genre]++;
+      }
     });
+  });
 
-    events.forEach((event) => {
-      genres.forEach((genre) => {
-        if (event.summary.includes(genre)) {
-          genresAndCounts[genre]++;
-        }
-      });
-    });
-
-    Object.keys(genresAndCounts).forEach((genre) => {
-      data.push({ name: genre, value: genresAndCounts[genre] });
-    });
-    return data;
-  };
+  Object.keys(genresAndCounts).forEach((genre) => {
+    pieChartData.push({ name: genre, value: genresAndCounts[genre] });
+  });
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -59,7 +51,6 @@ export default function EventGenre({ events }) {
     );
   };
 
-  const pieChartData = getData();
   return (
     <ResponsiveContainer height={400}>
       <PieChart width={400} height={400}>
@@ -73,7 +64,7 @@ export default function EventGenre({ events }) {
           fill="#8884d8"
           dataKey="value"
         >
-          {data.map((entry, index) => (
+          {pieChartData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
