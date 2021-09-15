@@ -115,3 +115,10 @@ So that I can easily see the number of upcoming events in determinate city.
 Given user opened the app
 When user click on the chart icon
 Then a chart with the number of upcoming events in each city will be shown.
+
+##Get started
+clone the repo
+in your console run ´npm i´ or ´npm install´
+to start the app in your console, run ´npm start´
+it will take you to the offline dev mode on the app in the local host
+
