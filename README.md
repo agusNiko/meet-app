@@ -2,6 +2,9 @@
 
 https://agusniko.github.io/meet-app/
 
+## Demo
+https://www.youtube.com/watch?v=CCdlEfnaECM
+
 is a progressive web application built using React and following the TDD approach. The app itself will be a “meetup” app of sorts, displaying a list of upcoming events for a city and time of the user’s choosing. It will also be available for users to use while offline (PWA)
 
 ## TDD approach & Test Scenarios
